@@ -20,6 +20,7 @@ namespace LoopStreet.Game{
         public float m_walkingSpeed;
         public float m_runningSpeed;
 
+        public bool alwaysRun;
         private void Start() 
         {
             _playerAgent = GetComponent<NavMeshAgent>();
@@ -61,7 +62,7 @@ namespace LoopStreet.Game{
                 m_RippleParticle.Play();
             }
 
-            _playerAgent.speed = m_walkingSpeed;
+            _playerAgent.speed = alwaysRun? m_runningSpeed : m_walkingSpeed;
 
         }
 
