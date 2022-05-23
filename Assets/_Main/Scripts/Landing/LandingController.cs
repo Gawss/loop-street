@@ -53,12 +53,7 @@ namespace LoopStreet.Game.Landing
             }
             else
             {
-                Debug.Log("Previous game non-detected, starting story...");
-                StartCoroutine(LoadScene());
-                DOTween.To(() => _colorAdjustments.postExposure.value, x => _colorAdjustments.postExposure.value = x, -15, 1.5f).OnComplete(() => 
-                {
-                    fadeOutCompleted = true;
-                });
+                NewGame();
             }
         }
 
@@ -68,6 +63,16 @@ namespace LoopStreet.Game.Landing
             // If it's the first time, start game with new memory
 
             return previousGame;
+        }
+
+        public void NewGame()
+        {
+            Debug.Log("Previous game non-detected, starting story...");
+            DOTween.To(() => _colorAdjustments.postExposure.value, x => _colorAdjustments.postExposure.value = x, -15, 1.5f).OnComplete(() =>
+            {
+                fadeOutCompleted = true;
+            });
+            StartCoroutine(LoadScene());
         }
 
         IEnumerator LoadScene()
