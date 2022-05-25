@@ -13,6 +13,8 @@ namespace LoopStreet.Game.Main
 
         public ParticleSystem _RippleParticle;
 
+        public GameObject textMsg;
+
         private void Start()
         {
             _playerAgent = GetComponent<NavMeshAgent>();
@@ -28,6 +30,18 @@ namespace LoopStreet.Game.Main
             else
             {
                 StopCharacter();
+            }
+
+            if(this != GameManager.Instance.currentCharacter)
+            {
+                if(Vector3.Distance(transform.position, GameManager.Instance.currentCharacter.transform.position) < 5)
+                {
+                    textMsg.SetActive(true);
+                }
+                else
+                {
+                    textMsg.SetActive(false);
+                }
             }
         }
 
