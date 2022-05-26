@@ -25,6 +25,7 @@ namespace LoopStreet.Game.Main
         public GameState gameState;
 
         public InterfaceController interfaceController;
+        public SoundController soundController;
 
 
         private void Awake()
@@ -50,6 +51,8 @@ namespace LoopStreet.Game.Main
         {
             Soul_ParticleSystem.gameObject.SetActive(true);
             Soul_ParticleSystem.transform.position = currentCharacter.transform.position;
+
+            soundController.PlaySoulChange();
 
             newCharacter.targetLocation.gameObject.SetActive(true);
 
