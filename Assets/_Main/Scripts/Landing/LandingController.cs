@@ -49,7 +49,7 @@ namespace LoopStreet.Game.Landing
             if (CheckPreviousGames())
             {
                 Debug.Log("Previous game detected, going to main menu...");
-                SlidePanel(-2560);
+                SlidePanel(-1920);
             }
             else
             {
@@ -107,7 +107,7 @@ namespace LoopStreet.Game.Landing
 
         public void CloseApp()
         {
-            SceneManager.LoadScene(0);
+            Application.Quit();
         }
 
         #region UI Methods
