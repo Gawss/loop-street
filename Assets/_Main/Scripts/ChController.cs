@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 namespace LoopStreet.Game.Main
 {
@@ -15,14 +17,29 @@ namespace LoopStreet.Game.Main
 
         public GameObject textMsg;
 
+        public Location targetLocation;
+
+        public UnityEvent OnEnter;
+        public UnityEvent OnFinish;
+
+        public bool canInteract = true;
+        public string finalTxt;
+
+        public TextMeshProUGUI taskText;
+
+        public int messageDistance = 5;
+
         private void Start()
         {
             _playerAgent = GetComponent<NavMeshAgent>();
             _playerAgent.speed = _movementSpeed;
+
+            GameManager.Instance.gameState.charactersFinished.Add(false);
         }
 
         private void Update()
         {
+
             if (_playerAgent.remainingDistance > _playerAgent.stoppingDistance)
             {
                 MoveCharacter();
@@ -34,7 +51,7 @@ namespace LoopStreet.Game.Main
 
             if(this != GameManager.Instance.currentCharacter)
             {
-                if(Vector3.Distance(transform.position, GameManager.Instance.currentCharacter.transform.position) < 5)
+                if(Vector3.Distance(transform.position, GameManager.Instance.currentCharacter.transform.position) < messageDistance)
                 {
                     textMsg.SetActive(true);
                 }
@@ -42,6 +59,10 @@ namespace LoopStreet.Game.Main
                 {
                     textMsg.SetActive(false);
                 }
+            }
+            else if(canInteract)
+            {
+                textMsg.SetActive(false);
             }
         }
 
@@ -57,6 +78,11 @@ namespace LoopStreet.Game.Main
             _RippleParticle.Play();
         }
 
+        public void SetText()
+        {
+            textMsg.GetComponentInChildren<TextMeshProUGUI>().text = finalTxt;
+        }
+
         public virtual void MoveCharacter()
         {
 
@@ -65,6 +91,28 @@ namespace LoopStreet.Game.Main
         public virtual void StopCharacter()
         {
 
+        }
+
+        public virtual void EndJourney()
+        {
+            targetLocation.gameObject.SetActive(false);
+            SetText();
+            canInteract = false;
+            if(taskText) taskText.fontStyle = FontStyles.Strikethrough;
+
+            GameManager.Instance.gameState.charactersFinished[(int)_playerType] = true;
+            OnFinish?.Invoke();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.GetComponent<Location>())
+            {
+                if(other.GetComponent<Location>().type == this._playerType)
+                {
+                    EndJourney();
+                }
+            }
         }
     }
 }

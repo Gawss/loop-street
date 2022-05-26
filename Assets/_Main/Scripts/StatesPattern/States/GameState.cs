@@ -6,5 +6,5 @@ using LoopStreet.Game.Main;
 [CreateAssetMenu(fileName ="GameState", menuName ="States/GameState")]
 public class GameState : ScriptableObject
 {
-    public playerType playerType;
+    public List<bool> charactersFinished;
 }

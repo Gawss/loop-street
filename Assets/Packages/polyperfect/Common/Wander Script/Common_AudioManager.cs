@@ -6,9 +6,9 @@ namespace Polyperfect.Common
 {
   public class Common_AudioManager : MonoBehaviour
   {
-    private static Common_AudioManager instance;
-    [SerializeField]
-    private bool muteSound;
+    public static Common_AudioManager instance;
+    
+    public bool muteSound;
 
     [SerializeField]
     private int objectPoolLength = 20;

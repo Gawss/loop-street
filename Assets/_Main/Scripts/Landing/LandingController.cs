@@ -105,6 +105,11 @@ namespace LoopStreet.Game.Landing
             }
         }
 
+        public void CloseApp()
+        {
+            SceneManager.LoadScene(0);
+        }
+
         #region UI Methods
 
         public void SlidePanel(float value)

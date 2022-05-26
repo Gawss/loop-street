@@ -11,6 +11,7 @@ namespace LoopStreet.Game.Main
 
         Ray hoverRay;
         RaycastHit hoverHitInfo;
+        public LayerMask layerMask;
 
         // Start is called before the first frame update
         void Start()
@@ -29,12 +30,11 @@ namespace LoopStreet.Game.Main
             Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
             RaycastHit hitInfo;
 
-            if (Physics.Raycast(ray, out hitInfo))
-            {
-                Debug.Log(hitInfo.transform.gameObject.name);
+            if (Physics.Raycast(ray, out hitInfo, layerMask))
+            {                
                 if (hitInfo.transform.gameObject.GetComponent<ChController>())
                 {
-                    GameManager.Instance.SetPlayerType(hitInfo.transform.gameObject.GetComponent<ChController>());
+                    if(hitInfo.transform.gameObject.GetComponent<ChController>().canInteract) GameManager.Instance.SetPlayerType(hitInfo.transform.gameObject.GetComponent<ChController>());
                 }
                 else
                 {
